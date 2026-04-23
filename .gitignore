@@ -35,3 +35,5 @@ Thumbs.db
 # Misc
 *.tsbuildinfo
 .cache/
+.claude/
+.git.bak/
