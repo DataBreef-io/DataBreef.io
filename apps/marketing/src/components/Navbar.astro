@@ -1,0 +1,151 @@
+---
+/**
+ * Navbar — fixed, glassmorphic on scroll.
+ * 15 lines of inline JS handle the scroll class toggle.
+ */
+---
+
+<nav class="navbar" id="navbar" aria-label="Main navigation">
+  <div class="inner">
+
+    <!-- Brand -->
+    <a href="/" class="brand" aria-label="DataBreef home">
+      <span class="brand-data">Data</span><span class="brand-breef">Breef</span>
+    </a>
+
+    <!-- Links -->
+    <div class="links" role="list">
+      <a href="#features" class="nav-link" role="listitem">Features</a>
+      <a href="#security" class="nav-link" role="listitem">Security</a>
+      <a href="https://docs.databreef.io" class="nav-link" role="listitem">Docs</a>
+      <a href="/pricing" class="nav-link" role="listitem">Pricing</a>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <a href="https://app.databreef.io/sign-in" class="btn btn-ghost" id="nav-sign-in">
+        Sign in
+      </a>
+      <a href="https://app.databreef.io/sign-up" class="btn btn-primary" id="nav-start-free">
+        Start free →
+      </a>
+    </div>
+
+    <!-- Mobile menu button (future) -->
+    <button class="menu-btn" aria-label="Open menu" aria-expanded="false" id="mob-menu-btn">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</nav>
+
+<script is:inline>
+  const navbar = document.getElementById('navbar');
+  if (navbar) {
+    const onScroll = () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 48);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    height: 72px;
+    transition:
+      background var(--duration-normal) var(--ease-out-expo),
+      backdrop-filter var(--duration-normal) var(--ease-out-expo),
+      box-shadow var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .navbar.scrolled {
+    background: hsl(210 50% 11% / 0.88);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 1px 0 var(--border-subtle), var(--shadow-md);
+  }
+
+  .inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  /* Brand */
+  .brand {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: var(--tracking-tight);
+    flex-shrink: 0;
+  }
+  .brand-data { color: var(--text-primary); }
+  .brand-breef { color: var(--color-foam); }
+
+  /* Nav links */
+  .links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    flex: 1;
+  }
+
+  .nav-link {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    transition: color var(--duration-fast) var(--ease-out-expo), background var(--duration-fast) var(--ease-out-expo);
+  }
+  .nav-link:hover {
+    color: var(--text-primary);
+    background: hsl(200 50% 15% / 0.5);
+  }
+
+  /* Actions */
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    flex-shrink: 0;
+  }
+
+  /* Mobile menu button — shown on small screens */
+  .menu-btn {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-2);
+  }
+  .menu-btn span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--text-secondary);
+    border-radius: 2px;
+    transition: background var(--duration-fast) var(--ease-out-expo);
+  }
+
+  @media (max-width: 768px) {
+    .links { display: none; }
+    .menu-btn { display: flex; }
+    .actions .btn-ghost { display: none; }
+  }
+</style>

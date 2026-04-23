@@ -1,0 +1,163 @@
+---
+/**
+ * SecuritySection — 4 trust pillars in a 2×2 grid with technical specifics.
+ * Copy angle: not "we promise we're safe" — actual technical enforcement.
+ */
+
+const pillars = [
+  {
+    icon: '🛡️',
+    title: 'Database-Native Security',
+    body: 'Every connection is locked into a READ ONLY state using engine-specific protocols (like SET TRANSACTION READ ONLY) immediately upon starting. The database itself refuses any write operation — architecturally.',
+    tag: 'Postgres · MySQL · SQL Server',
+  },
+  {
+    icon: '🔭',
+    title: 'Transparent Log Streams',
+    body: 'Watch every SQL command as it runs. Our Live Security Log provides a real-time audit trail of exactly how we introspect your schema, giving you total visibility into our read-only process.',
+    tag: 'Live Audit Logs',
+  },
+  {
+    icon: '🚫',
+    title: 'Zero Row Access',
+    body: 'DataBreef reads schema structure — table names, indices, relationships. We never read, store, or transmit values from your rows. Your actual data never leaves your environment.',
+    tag: 'Schema-only introspection',
+  },
+  {
+    icon: '📦',
+    title: 'Self-Hostable Infrastructure',
+    body: 'Pull the Docker image and run it on your own network. No phone-home, no telemetry, and full source code transparency with our MIT license.',
+    tag: 'Docker · MIT Licensed',
+  },
+] as const;
+---
+
+<section class="security-section section" id="security" aria-labelledby="security-heading">
+  <div class="container">
+
+    <div class="section-header">
+      <p class="eyebrow">Built for trust</p>
+      <h2 class="section-title" id="security-heading">
+        The only tool that <em class="accent">can't</em> touch your data.
+      </h2>
+      <p class="section-body">
+        DataBreef wasn't designed to be safe. It was designed so that being unsafe
+        is architecturally impossible.
+      </p>
+    </div>
+
+    <div class="pillars-grid">
+      {pillars.map((pillar) => (
+        <div class="pillar-card">
+          <div class="pillar-icon" aria-hidden="true">{pillar.icon}</div>
+          <h3 class="pillar-title">{pillar.title}</h3>
+          <p class="pillar-body">{pillar.body}</p>
+          <span class="pillar-tag">{pillar.tag}</span>
+        </div>
+      ))}
+    </div>
+
+    <!-- Security badge row -->
+    <div class="security-footer">
+      <p class="security-statement">
+        "DataBreef has never — and by design can never — alter data in a user's database."
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .security-section {
+    background: var(--color-abyss);
+  }
+
+  .accent {
+    font-style: italic;
+    color: var(--color-foam);
+  }
+
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+
+  .pillar-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    border: 1px solid var(--border-subtle);
+    transition:
+      border-color var(--duration-normal) var(--ease-out-expo),
+      box-shadow var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .pillar-card:hover {
+    border-color: hsl(172 65% 50% / 0.3);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .pillar-icon {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .pillar-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .pillar-body {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+    flex: 1;
+  }
+
+  .pillar-tag {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-biolum);
+    background: hsl(182 90% 58% / 0.08);
+    border: 1px solid hsl(182 90% 58% / 0.25);
+    border-radius: var(--radius-full);
+    padding: var(--space-1) var(--space-3);
+    width: fit-content;
+  }
+
+  /* Security statement */
+  .security-footer {
+    text-align: center;
+    margin-top: var(--space-12);
+    padding: var(--space-8);
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    border: 1px solid hsl(172 65% 50% / 0.2);
+    box-shadow: 0 0 40px hsl(172 65% 30% / 0.08);
+  }
+
+  .security-statement {
+    font-family: var(--font-display);
+    font-size: clamp(var(--text-lg), 2.5vw, var(--text-2xl));
+    font-style: italic;
+    color: var(--text-secondary);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-relaxed);
+  }
+
+  @media (max-width: 768px) {
+    .pillars-grid { grid-template-columns: 1fr; }
+  }
+</style>

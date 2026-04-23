@@ -1,0 +1,160 @@
+---
+/**
+ * FinalCTA — closing full-width section with ambient ocean background.
+ * Cormorant Garamond italic headline, single primary CTA, trust sub-line.
+ */
+---
+
+<section class="cta-section" aria-labelledby="cta-heading">
+
+  <!-- Ambient light layers -->
+  <div class="cta-bg" aria-hidden="true">
+    <div class="cta-shaft cta-shaft-1"></div>
+    <div class="cta-shaft cta-shaft-2"></div>
+    <!-- Silhouetted coral horizon -->
+    <div class="cta-horizon">
+      <svg viewBox="0 0 1440 160" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <!-- Left coral branch -->
+        <g stroke="hsl(215,18%,14%)" stroke-linecap="round" fill="none">
+          <path d="M60,160 L60,100 M60,155 C46,138 40,118 34,92 M60,145 C72,128 76,110 78,86 M60,120 C50,104 46,86 44,66 M60,120 C69,103 72,84 73,64 M60,100 L60,60" stroke-width="3.5"/>
+        </g>
+        <!-- Right coral -->
+        <g stroke="hsl(215,16%,12%)" stroke-linecap="round" fill="none">
+          <path d="M1360,160 L1360,100 M1360,152 C1347,135 1342,115 1337,90 M1360,143 C1372,126 1376,108 1378,84 M1360,118 C1351,102 1348,83 1346,62 M1360,118 C1369,102 1371,83 1372,62" stroke-width="3.5"/>
+        </g>
+        <!-- Center fan coral -->
+        <path d="M720,160 C692,138 686,110 694,82 C700,61 710,44 720,32 C730,44 740,61 746,82 C754,110 748,138 720,160" fill="hsl(215,15%,10%)"/>
+        <!-- Sea floor -->
+        <path d="M0,148 C360,130 720,158 1080,136 C1260,126 1380,142 1440,134 L1440,160 L0,160 Z" fill="hsl(215,22%,9%)"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="cta-inner">
+    <p class="eyebrow">Ready to dive in?</p>
+    <h2 class="cta-headline" id="cta-heading">
+      Your reef is waiting
+      <em class="cta-em">to be understood.</em>
+    </h2>
+    <p class="cta-sub-body">
+      Connect your first schema in 30 seconds. DataBreef reads. It never writes.
+    </p>
+    <a href="https://app.databreef.io/sign-up" class="btn btn-primary btn-primary-lg" id="final-cta">
+      Anchor your first reef — it's free →
+    </a>
+    <p class="cta-trust">No credit card. No schema changes. No surprises.</p>
+  </div>
+
+</section>
+
+<style>
+  .cta-section {
+    position: relative;
+    background: var(--color-abyss);
+    border-top: 1px solid var(--border-subtle);
+    padding: var(--space-32) var(--space-6);
+    overflow: hidden;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 600px;
+  }
+
+  /* ── Ambient lights ── */
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .cta-shaft {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.25;
+  }
+
+  .cta-shaft-1 {
+    width: 55%;
+    height: 70%;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse, hsl(172 65% 26% / 0.5), transparent 70%);
+    animation: shaftDrift 16s ease-in-out infinite alternate;
+  }
+
+  .cta-shaft-2 {
+    width: 30%;
+    height: 40%;
+    top: 5%;
+    right: 10%;
+    background: radial-gradient(ellipse, hsl(200 60% 22% / 0.3), transparent 70%);
+    animation: shaftDrift 12s ease-in-out infinite alternate-reverse;
+  }
+
+  @keyframes shaftDrift {
+    from { transform: translateX(-50%) scale(1); }
+    to   { transform: translateX(-50%) scale(1.12) translateY(-3%); }
+  }
+
+  .cta-horizon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    line-height: 0;
+  }
+
+  .cta-horizon svg {
+    width: 100%;
+    height: 160px;
+  }
+
+  /* ── Content ── */
+  .cta-inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    max-width: 680px;
+  }
+
+  .cta-headline {
+    font-family: var(--font-display);
+    font-size: clamp(var(--text-4xl), 5vw, var(--text-6xl));
+    font-weight: 400;
+    color: var(--text-primary);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
+  }
+
+  .cta-em {
+    display: block;
+    font-style: italic;
+    color: var(--color-foam);
+  }
+
+  .cta-sub-body {
+    font-family: var(--font-body);
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+    max-width: 480px;
+  }
+
+  .cta-trust {
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-shaft-1, .cta-shaft-2 { animation: none; }
+  }
+</style>

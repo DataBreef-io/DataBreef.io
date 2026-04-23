@@ -1,0 +1,264 @@
+---
+import DibTooltip from './DibTooltip.astro';
+---
+
+<div class="calculator-container" id="dib-calculator">
+  <div class="calculator-header">
+    <h3 class="calc-title">How many dives do you need?</h3>
+    <p class="calc-subtitle">
+      Estimate your monthly { "Data Intelligence Brief (Dib)".split(/(Dib)/g).map(part => {
+        if (part === 'Dib') return <DibTooltip noUnderline>{part}</DibTooltip>;
+        return part;
+      }) } usage.
+    </p>
+  </div>
+
+  <div class="calc-main">
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="usage-label">
+          Monthly { "Dibs".split(/(Dibs)/g).map(part => {
+            if (part === 'Dibs') return <DibTooltip noUnderline>{part}</DibTooltip>;
+            return part;
+          }) }
+        </span>
+        <span class="usage-value" id="usage-display">25</span>
+      </div>
+      <input 
+        type="range" 
+        min="1" 
+        max="300" 
+        value="25" 
+        class="usage-slider" 
+        id="dib-usage-input"
+        aria-label="Estimated number of Dibs per month"
+      >
+      <div class="slider-markers">
+        <span>1</span>
+        <span>75</span>
+        <span>150</span>
+        <span>225</span>
+        <span>300+</span>
+      </div>
+    </div>
+
+    <div class="calc-result" id="calc-result">
+      <div class="result-label">Recommended Plan</div>
+      <div class="result-tier" id="result-tier-name">Diver</div>
+      <div class="result-summary" id="result-summary">Includes 20 Dibs + $15 for 5 extras</div>
+      <div class="result-total">
+        <span class="total-label">Estimated Total</span>
+        <span class="total-price" id="total-display">$34</span>
+        <span class="total-period">/ mo</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .calculator-container {
+    background: var(--color-deep);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    max-width: 900px;
+    margin: 0 auto var(--space-20);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .calculator-header {
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .calc-title {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .calc-subtitle {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .calc-main {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  .slider-group {
+    flex: 1;
+  }
+
+  .slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-4);
+  }
+
+  .usage-label {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .usage-value {
+    font-family: var(--font-heading);
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    color: var(--color-foam);
+  }
+
+  .usage-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: var(--color-reef);
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: var(--space-4);
+  }
+
+  .usage-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: var(--color-foam);
+    border: 2px solid var(--color-abyss);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--glow-foam);
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .usage-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+
+  .slider-markers {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+  }
+
+  .calc-result {
+    background: var(--color-reef);
+    padding: var(--space-8);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-accent);
+    text-align: center;
+  }
+
+  .result-label {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-widest);
+    color: var(--text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .result-tier {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-foam);
+    margin-bottom: var(--space-1);
+  }
+
+  .result-summary {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .result-total {
+    padding-top: var(--space-6);
+    border-top: 1px solid hsl(192 40% 35% / 0.5);
+  }
+
+  .total-label {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+
+  .total-price {
+    font-family: var(--font-heading);
+    font-size: var(--text-5xl);
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .total-period {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 768px) {
+    .calc-main {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+    .calc-result {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    const slider = document.getElementById('dib-usage-input');
+    const display = document.getElementById('usage-display');
+    const tierName = document.getElementById('result-tier-name');
+    const summary = document.getElementById('result-summary');
+    const totalPrice = document.getElementById('total-display');
+
+    const PLANS = [
+      { id: 'free', max: 5, basePrice: 0, includedDibs: 5, extraPrice: 0 },
+      { id: 'diver', max: 50, basePrice: 19, includedDibs: 20, extraPrice: 3 },
+      { id: 'pro', max: 150, basePrice: 69, includedDibs: 50, extraPrice: 2 },
+      { id: 'fleet', max: 300, basePrice: 199, includedDibs: 150, extraPrice: 1.5 }
+    ];
+
+    function calculate() {
+      const usage = parseInt(slider.value);
+      display.textContent = usage === 300 ? '300+' : usage;
+
+      let bestPlan = PLANS[PLANS.length - 1];
+      for (const plan of PLANS) {
+        if (usage <= plan.max) {
+          bestPlan = plan;
+          break;
+        }
+      }
+
+      // Calculate estimated cost
+      let extras = Math.max(0, usage - bestPlan.includedDibs);
+      let extrasCost = extras * bestPlan.extraPrice;
+      let total = bestPlan.basePrice + extrasCost;
+
+      tierName.textContent = bestPlan.id.charAt(0).toUpperCase() + bestPlan.id.slice(1);
+      
+      if (bestPlan.id === 'free') {
+        summary.textContent = "Includes 5 Dibs / month";
+      } else {
+        const plural = extras === 1 ? '' : 's';
+        summary.textContent = `Includes ${bestPlan.includedDibs} Dibs + $${extrasCost.toFixed(0)} for ${extras} extra${plural}`;
+      }
+      
+      totalPrice.textContent = `$${Math.round(total)}`;
+    }
+
+    slider.addEventListener('input', calculate);
+    calculate();
+  })();
+</script>

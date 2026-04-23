@@ -1,0 +1,167 @@
+---
+/**
+ * FeatureComparisonTable — Wide table for detailed plan breakdown.
+ */
+import DibTooltip from './DibTooltip.astro';
+
+const features = [
+  { group: "Reef Diving (Schema Intelligence)", items: [
+    { name: "Active Database Connections", free: "1", diver: "3", pro: "10", fleet: "Unlimited" },
+    { name: "Monthly Included Dibs", free: "5", diver: "20", pro: "50", fleet: "150" },
+    { name: "Extra Dib Price", free: "N/A", diver: "$3.00", pro: "$2.00", fleet: "$1.50" },
+    { name: "Schema Explorer & Search", free: "✓", diver: "✓", pro: "✓", fleet: "✓" },
+    { name: "Auto-Refresh / Scheduling", free: "–", diver: "–", pro: "✓", fleet: "✓" },
+  ]},
+  { group: "Collaboration & Team", items: [
+    { name: "Member Seats", free: "1", diver: "1", pro: "Up to 5", fleet: "Up to 20" },
+    { name: "Shared Workspace", free: "–", diver: "–", pro: "✓", fleet: "✓" },
+    { name: "Export (PDF, Markdown)", free: "–", diver: "✓", pro: "✓", fleet: "✓" },
+    { name: "Dib History Archive", free: "30 days", diver: "90 days", pro: "Unlimited", fleet: "Unlimited" },
+  ]},
+  { group: "Security & Infrastructure", items: [
+    { name: "Read-Only Enforcement", free: "✓", diver: "✓", pro: "✓", fleet: "✓" },
+    { name: "AES-256 Credentials Encryption", free: "✓", diver: "✓", pro: "✓", fleet: "✓" },
+    { name: "SSO (Google/GitHub/SAML)", free: "–", diver: "✓", pro: "✓", fleet: "✓" },
+    { name: "Dedicated Support", free: "Community", diver: "Email", pro: "Priority", fleet: "Slack Connect" },
+  ]}
+];
+---
+
+<div class="comparison-container">
+  <div class="comparison-header">
+    <h2 class="comparison-title">Compare Plan Details</h2>
+  </div>
+
+  <div class="table-wrapper">
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th class="feature-col">Feature</th>
+          <th>Still Waters</th>
+          <th>Diver</th>
+          <th>Pro</th>
+          <th>Fleet</th>
+        </tr>
+      </thead>
+      <tbody>
+        {features.map((section) => (
+          <>
+            <tr class="group-row">
+              <td colspan="5">{section.group}</td>
+            </tr>
+            {section.items.map((item) => (
+              <tr>
+                <td class="feature-col">
+                  {item.name.split(/(Dibs?)/g).map(part => {
+                    if (part.match(/Dibs?/)) return <DibTooltip noUnderline>{part}</DibTooltip>;
+                    return part;
+                  })}
+                </td>
+                <td>{item.free}</td>
+                <td class="active-col">{item.diver}</td>
+                <td>{item.pro}</td>
+                <td>{item.fleet}</td>
+              </tr>
+            ))}
+          </>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .comparison-container {
+    padding-top: var(--space-20);
+    margin-bottom: var(--space-32);
+  }
+
+  .comparison-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .comparison-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-md);
+  }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+
+  .comparison-table th, 
+  .comparison-table td {
+    padding: var(--space-4) var(--space-6);
+    text-align: center;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .comparison-table th {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--text-secondary);
+    background: hsl(210 50% 9%);
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: var(--tracking-widest);
+  }
+
+  .feature-col {
+    text-align: left !important;
+    width: 300px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .group-row td {
+    background: hsl(200 50% 14%);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-foam);
+    text-align: left !important;
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    padding: var(--space-3) var(--space-6);
+  }
+
+  .active-col {
+    color: var(--color-foam);
+    font-weight: 600;
+    background: hsl(172 65% 50% / 0.03);
+  }
+
+  tr:hover td {
+    background: hsl(192 40% 15% / 0.4);
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 900px) {
+    .feature-col {
+      width: 200px;
+      position: sticky;
+      left: 0;
+      background: var(--bg-card);
+      z-index: 2;
+      box-shadow: 4px 0 8px rgba(0,0,0,0.2);
+    }
+    .group-row td {
+      position: sticky;
+      left: 0;
+    }
+  }
+</style>

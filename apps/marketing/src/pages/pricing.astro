@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import PricingToggle from '../components/PricingToggle.astro';
+import PricingCards from '../components/PricingCards.astro';
+import DibCalculator from '../components/DibCalculator.astro';
+import PricingFAQ from '../components/PricingFAQ.astro';
+import FeatureComparisonTable from '../components/FeatureComparisonTable.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'DataBreef',
+  applicationCategory: 'DeveloperApplication',
+  operatingSystem: 'Web',
+  description: 'Schema intelligence for PostgreSQL. Read-only database introspection with AI-powered Dib insights.',
+  url: 'https://databreef.io',
+  offers: [
+    { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD', description: '1 Reef, 5 Dibs/month' },
+    { '@type': 'Offer', name: 'Pro', price: '29', priceCurrency: 'USD', description: 'Unlimited Reefs, 500 Dibs/month' },
+    { '@type': 'Offer', name: 'Fleet', price: '99', priceCurrency: 'USD', description: 'Unlimited Reefs, unlimited Dibs, SSO' },
+  ],
+};
+---
+
+<Base
+  title="Pricing — DataBreef"
+  description="Transparent, value-based pricing for schema intelligence. Start for free, scale with your fleet."
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+  <main class="pricing-page">
+    <div class="container section">
+      
+      <!-- Header -->
+      <header class="section-header fade-up">
+        <p class="eyebrow">Fair & Transparent</p>
+        <h1 class="section-title">The reef is free. <br/><em class="accent">The intelligence isn't.</em></h1>
+        <p class="section-body">
+          Start surfacing insights from your first schema in seconds. No seat limits on Pro and above, just predictable usage-based scaling.
+        </p>
+      </header>
+
+      <!-- Toggle & Cards -->
+      <PricingToggle />
+      <PricingCards />
+
+      <!-- Calculator Section -->
+      <DibCalculator />
+
+      <!-- FAQ Section -->
+      <PricingFAQ />
+
+      <!-- Detailed Breakdown -->
+      <FeatureComparisonTable />
+
+    </div>
+
+    <!-- Final CTA Re-used from index -->
+    <FinalCTA />
+  </main>
+</Base>
+
+<style>
+  .pricing-page {
+    padding-top: 72px; /* Navbar height */
+    background: var(--color-abyss);
+  }
+
+  .accent {
+    font-style: italic;
+    color: var(--color-foam);
+  }
+
+  .section-header {
+    margin-bottom: var(--space-8);
+  }
+</style>

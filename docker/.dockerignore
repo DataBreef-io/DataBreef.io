@@ -1,0 +1,35 @@
+# Never include marketing site in Docker build
+apps/marketing/
+
+# Build artifacts
+**/.next/
+**/dist/
+**/.astro/
+
+# Dev dependencies and caches
+**/node_modules/
+**/.pnpm-store/
+**/node_modules/.cache/
+
+# Docs (not needed in container)
+docs/
+
+# Environment files
+**/.env
+**/.env.local
+**/.env*.local
+
+# Editor
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

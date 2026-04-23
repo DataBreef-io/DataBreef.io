@@ -1,0 +1,94 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+---
+
+<LegalLayout
+  title="Cookie Policy"
+  description="DataBreef uses only strictly necessary cookies for session management. No advertising, no cross-site tracking."
+  lastUpdated="April 2026"
+>
+  <p>
+    This Cookie Policy explains what cookies DataBreef uses, why we use them, and what choices you have.
+    We keep it simple: DataBreef uses the minimum cookies required to function, and nothing more.
+  </p>
+
+  <h2>What Are Cookies?</h2>
+  <p>
+    Cookies are small text files stored on your device by your browser when you visit a website. They
+    allow the site to remember information about your visit — like whether you are logged in — across
+    page loads and sessions.
+  </p>
+
+  <h2>Cookies We Use</h2>
+
+  <h3>Strictly Necessary Cookies</h3>
+  <p>
+    These cookies are required for DataBreef to function. They cannot be disabled without breaking
+    core features of the service. We do not require consent for these cookies under most privacy
+    frameworks because they are essential.
+  </p>
+  <ul>
+    <li>
+      <strong>Session cookie</strong> — Stores your authenticated session token so you remain logged in
+      as you navigate the application. Expires when you close your browser or after 30 days if you select
+      "Remember me."
+    </li>
+    <li>
+      <strong>CSRF token</strong> — A security token that protects form submissions from cross-site
+      request forgery attacks. Session-scoped; expires with your session.
+    </li>
+    <li>
+      <strong>Auth state cookie</strong> — A short-lived cookie used during the OAuth authentication
+      flow (GitHub, Google) to prevent state forgery. Expires within 15 minutes.
+    </li>
+  </ul>
+
+  <h3>Preference Cookies</h3>
+  <p>
+    DataBreef may set a preference cookie to remember UI choices such as your selected pricing
+    billing period (monthly/annual). These contain no personal data and expire after 90 days.
+  </p>
+
+  <h2>Cookies We Do NOT Use</h2>
+  <ul>
+    <li>Advertising or retargeting cookies</li>
+    <li>Cross-site tracking cookies</li>
+    <li>Analytics cookies from third-party providers (e.g., Google Analytics)</li>
+    <li>Social media tracking pixels</li>
+  </ul>
+  <p>
+    We do not share cookie data with advertisers or data brokers. Ever.
+  </p>
+
+  <h2>Third-Party Cookies</h2>
+  <p>
+    DataBreef does not embed third-party widgets, ad networks, or social share buttons that would
+    set their own cookies on our marketing pages. Stripe's payment flow, accessed only when
+    upgrading your plan, may set their own cookies governed by
+    <a href="https://stripe.com/cookies-policy/legal" target="_blank" rel="noopener noreferrer">Stripe's Cookie Policy</a>.
+  </p>
+
+  <h2>Managing Cookies</h2>
+  <p>
+    You can control cookies through your browser settings. Note that disabling strictly necessary
+    cookies will prevent you from logging in to DataBreef. Most browsers allow you to:
+  </p>
+  <ul>
+    <li>View and delete existing cookies</li>
+    <li>Block cookies from specific sites</li>
+    <li>Block all third-party cookies</li>
+    <li>Clear all cookies when you close your browser</li>
+  </ul>
+
+  <h2>Changes to This Policy</h2>
+  <p>
+    If we introduce new cookies or change how we use existing ones, we will update this page and,
+    where required by law, seek your consent before setting any new non-essential cookies.
+  </p>
+
+  <div class="legal-contact">
+    <h2>Questions</h2>
+    <p>Cookie questions? Contact us at:</p>
+    <p><strong>DataBreef</strong> — <a href="mailto:privacy@databreef.io">privacy@databreef.io</a></p>
+  </div>
+</LegalLayout>

@@ -1,0 +1,63 @@
+name: databreef
+
+services:
+  app:
+    image: databreef/app:latest
+    # Uncomment to build locally:
+    # build:
+    #   context: ..
+    #   dockerfile: docker/app.Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      # ── Auth mode ─────────────────────────────────────────────
+      AUTH_PROVIDER: oidc
+
+      # ── Auth.js secret (generate: openssl rand -base64 32) ────
+      AUTH_SECRET: ${AUTH_SECRET}
+
+      # ── OIDC provider (Keycloak, Authentik, Zitadel, etc.) ───
+      AUTH_OIDC_ISSUER: ${AUTH_OIDC_ISSUER}
+      AUTH_OIDC_CLIENT_ID: ${AUTH_OIDC_CLIENT_ID}
+      AUTH_OIDC_CLIENT_SECRET: ${AUTH_OIDC_CLIENT_SECRET}
+
+      # ── App database (stores users, sources, Dibs) ────────────
+      DATABASE_URL: postgresql://databreef:${DB_PASSWORD}@postgres:5432/databreef
+
+      # ── App URL (used for OAuth callbacks) ────────────────────
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: databreef
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: databreef
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U databreef"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+# ── Usage ────────────────────────────────────────────────────────────
+# 1. Copy this file and create a .env file with:
+#    AUTH_SECRET=<openssl rand -base64 32>
+#    AUTH_OIDC_ISSUER=https://your-idp.example.com
+#    AUTH_OIDC_CLIENT_ID=databreef
+#    AUTH_OIDC_CLIENT_SECRET=your_client_secret
+#    DB_PASSWORD=a_strong_random_password
+#    NEXTAUTH_URL=http://localhost:3000  # or your public domain
+#
+# 2. docker compose up -d
+# 3. Open http://localhost:3000

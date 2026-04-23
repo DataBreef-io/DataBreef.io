@@ -1,0 +1,122 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-4);
+}
+
+.modal {
+  background: var(--color-deep);
+  border: 1px solid var(--border-ghost);
+  border-radius: var(--radius-2xl);
+  width: 100%;
+  max-width: 400px;
+  padding: var(--space-8);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  text-align: center;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  color: var(--color-foam);
+  filter: drop-shadow(0 0 10px var(--color-foam));
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  color: var(--color-foam);
+  margin: 0;
+}
+
+.description {
+  color: var(--text-muted);
+  text-align: center;
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.schemaList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 200px;
+  overflow-y: auto;
+  padding: var(--space-2);
+  border: 1px solid var(--border-ghost);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.schemaItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.schemaItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.hiddenCheckbox {
+  display: none;
+}
+
+.customCheckbox {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.customCheckbox.checked {
+  background: var(--color-foam);
+  border-color: var(--color-foam);
+  box-shadow: 0 0 8px var(--color-foam);
+}
+
+.actions {
+  margin-top: var(--space-2);
+}
+
+.timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--color-foam);
+  display: inline-block;
+  min-width: 1.2ch;
+  text-align: center;
+}

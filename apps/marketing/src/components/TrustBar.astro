@@ -1,0 +1,70 @@
+---
+/**
+ * TrustBar — a full-width bar of trust signals between Hero and the main content.
+ * Communicates the four pillars of DataBreef's reliability instantly.
+ */
+
+const pillars = [
+  { icon: '🔒', label: 'Read-Only at the Postgres level' },
+  { icon: '⚙️', label: 'Self-hostable Docker image' },
+  { icon: '🌊', label: 'Open source — MIT License' },
+  { icon: '🛡️', label: 'Zero data mutation. Ever.' },
+] as const;
+---
+
+<div class="trust-bar" aria-label="Trust pillars">
+  <div class="inner">
+    {pillars.map(({ icon, label }) => (
+      <div class="pillar">
+        <span class="pillar-icon" aria-hidden="true">{icon}</span>
+        <span class="pillar-label">{label}</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .trust-bar {
+    background: var(--color-deep);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    padding: var(--space-5) 0;
+  }
+
+  .inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+
+  .pillar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    white-space: nowrap;
+  }
+
+  .pillar-icon {
+    font-size: 1rem;
+    line-height: 1;
+    opacity: 0.85;
+  }
+
+  .pillar-label {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  @media (max-width: 640px) {
+    .inner { justify-content: flex-start; }
+    .pillar { flex-shrink: 0; }
+  }
+</style>

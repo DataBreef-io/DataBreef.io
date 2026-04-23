@@ -1,0 +1,80 @@
+/**
+ * Middleware for session handling and route protection.
+ *
+ * Rules:
+ * - Public routes: /auth/*, /api/health, / (home)
+ * - Protected routes: /dashboard, /settings, /onboarding
+ * - Auth routes: /auth/* (redirect to /dashboard if already signed in)
+ *
+ * NOTE: This runs in Edge Runtime, so no Node.js modules (crypto, argon2, etc.)
+ * We use Auth.js middleware wrapper which is Edge-compatible.
+ */
+
+import { NextRequest, NextResponse } from "next/server";
+import { jwtVerify } from "jose";
+
+const sessionTokenName = "next-auth.session-token";
+const secret = new TextEncoder().encode(process.env.NEXTAUTH_SECRET || "");
+
+export const config = {
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|public).*)",
+  ],
+};
+
+async function getSession(req: NextRequest) {
+  try {
+    const token = req.cookies.get(sessionTokenName)?.value;
+    if (!token) return null;
+
+    // For Edge Runtime, we just check if the token exists
+    // Full verification happens on server-side
+    return { hasSession: true };
+  } catch {
+    return null;
+  }
+}
+
+export async function middleware(req: NextRequest) {
+  const { pathname } = req.nextUrl;
+  const session = await getSession(req);
+
+  // Public routes (no auth required)
+  const publicRoutes = [
+    "/",
+    "/auth/signin",
+    "/auth/signup",
+    "/api/auth",
+    "/api/health",
+  ];
+
+  const isPublicRoute = publicRoutes.some((route) => pathname.startsWith(route));
+
+  // Protected routes (auth required)
+  const protectedRoutes = ["/dashboard", "/settings", "/onboarding", "/(app)"];
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+
+  // Auth routes (redirect to dashboard if already signed in)
+  const isAuthRoute = pathname.startsWith("/auth/");
+
+  // If visiting public route, allow
+  if (isPublicRoute) {
+    return NextResponse.next();
+  }
+
+  // If visiting auth route and already signed in, redirect to dashboard
+  if (isAuthRoute && session) {
+    return NextResponse.redirect(new URL("/dashboard", req.nextUrl.origin));
+  }
+
+  // If visiting protected route without session, redirect to sign-in
+  if (isProtectedRoute && !session) {
+    const url = new URL("/auth/signin", req.nextUrl.origin);
+    url.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(url);
+  }
+
+  return NextResponse.next();
+}

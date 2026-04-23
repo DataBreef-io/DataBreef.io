@@ -1,0 +1,12 @@
+id: 01-mvp-launch
+title: Ship MVP launch (public) by 2026-05-18
+context: |
+  Sprint 2 is 85% complete as of 2026-04-21. Remaining: email service
+  verification (2h), OAuth (1h), MS SQL adapter (5h), marketing (4h),
+  testing (3h). Sprint 3 adds commerce/payments. Sprint 4 is launch prep.
+definition_of_done:
+  - MS SQL adapter shipped with integration tests
+  - OAuth login verified end-to-end in production
+  - Marketing site deployed with working signup flow
+  - Test coverage ≥70% on src/adapters and src/auth
+agents_in_scope: [feature-builder, test-writer, doc-keeper]

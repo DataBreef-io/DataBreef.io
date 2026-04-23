@@ -1,0 +1,123 @@
+---
+/**
+ * PricingToggle — A simple, smooth toggle between Monthly and Annual billing.
+ */
+---
+
+<div class="pricing-toggle-wrapper">
+  <span class="toggle-label" id="label-monthly">Monthly</span>
+  <button 
+    class="toggle-btn" 
+    id="pricing-toggle" 
+    role="switch" 
+    aria-checked="false" 
+    aria-label="Toggle between monthly and annual billing"
+  >
+    <div class="toggle-nub"></div>
+  </button>
+  <span class="toggle-label" id="label-annual">
+    Annual 
+    <span class="save-badge">Save 20%</span>
+  </span>
+</div>
+
+<style>
+  .pricing-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+
+  .toggle-label {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: color var(--duration-fast) var(--ease-out-expo);
+  }
+
+  .toggle-label.active {
+    color: var(--text-primary);
+  }
+
+  .toggle-btn {
+    position: relative;
+    width: 64px;
+    height: 32px;
+    background: var(--color-reef);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    cursor: pointer;
+    padding: 4px;
+    transition: background var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .toggle-btn:hover {
+    border-color: var(--color-foam);
+  }
+
+  .toggle-nub {
+    width: 24px;
+    height: 24px;
+    background: var(--color-foam);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .toggle-btn.annual .toggle-nub {
+    transform: translateX(32px);
+  }
+
+  .toggle-btn.annual {
+    background: hsl(172 65% 50% / 0.2);
+    border-color: var(--color-foam);
+  }
+
+  .save-badge {
+    background: hsl(172 65% 50% / 0.15);
+    color: var(--color-foam);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    const toggle = document.getElementById('pricing-toggle');
+    const labelMonthly = document.getElementById('label-monthly');
+    const labelAnnual = document.getElementById('label-annual');
+    
+    if (!toggle) return;
+
+    function updateLabels(isAnnual) {
+      if (isAnnual) {
+        labelAnnual.classList.add('active');
+        labelMonthly.classList.remove('active');
+        toggle.setAttribute('aria-checked', 'true');
+      } else {
+        labelMonthly.classList.add('active');
+        labelAnnual.classList.remove('active');
+        toggle.setAttribute('aria-checked', 'false');
+      }
+      
+      // Emit event for PricingCards to listen to
+      const event = new CustomEvent('pricing-cycle-change', { detail: { isAnnual } });
+      window.dispatchEvent(event);
+    }
+
+    // Default
+    updateLabels(false);
+
+    toggle.addEventListener('click', () => {
+      const isAnnual = toggle.classList.toggle('annual');
+      updateLabels(isAnnual);
+    });
+  })();
+</script>

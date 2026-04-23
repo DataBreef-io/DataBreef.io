@@ -1,0 +1,60 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  padding: 0.2rem 0.6rem;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  letter-spacing: var(--tracking-wide);
+}
+
+.badge::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── Variants ── */
+.variant-reef {
+  color: var(--color-foam);
+  background: hsl(172 65% 50% / 0.12);
+  border-color: hsl(172 65% 50% / 0.35);
+}
+
+.variant-kelp {
+  color: var(--color-seagrass);
+  background: hsl(148 50% 38% / 0.15);
+  border-color: hsl(148 50% 38% / 0.4);
+}
+
+.variant-coral {
+  color: var(--color-coral);
+  background: hsl(16 80% 62% / 0.12);
+  border-color: hsl(16 80% 62% / 0.35);
+}
+
+.variant-urchin {
+  color: var(--color-urchin);
+  background: hsl(350 65% 58% / 0.12);
+  border-color: hsl(350 65% 58% / 0.35);
+}
+
+.variant-neutral {
+  color: var(--text-muted);
+  background: hsl(220 15% 55% / 0.1);
+  border-color: hsl(220 15% 55% / 0.3);
+}
+
+.variant-biolum {
+  color: var(--color-biolum);
+  background: hsl(182 90% 58% / 0.1);
+  border-color: hsl(182 90% 58% / 0.35);
+}

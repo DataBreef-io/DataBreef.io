@@ -1,0 +1,116 @@
+---
+/**
+ * PricingFAQ — Accordion style FAQ for pricing specific questions.
+ */
+import DibTooltip from './DibTooltip.astro';
+
+const faqs = [
+  {
+    question: "What exactly counts as a 'Dib'?",
+    answer: "A Data Intelligence Brief (Dib) is a comprehensive, AI-generated report for a specific schema or subset of tables. One credit is consumed whenever you trigger a fresh AI analysis of your source. Viewing an existing Dib or navigating your schema in the explorer is always free."
+  },
+  {
+    question: "Is there really no credit card required for the Free plan?",
+    answer: "Correct. You can anchor your first reef and generate up to 5 Dibs per month without ever entering a credit card. No schema changes, no risk."
+  },
+  {
+    question: "Do unused Dib credits roll over to the next month?",
+    answer: "Dibs included in your monthly subscription (e.g., the 20 Dibs in the Diver plan) do not roll over. However, any 'extra' credit bundles you purchase manually never expire."
+  },
+  {
+    question: "Can I self-host DataBreef for free?",
+    answer: "Yes. The core DataBreef application is open source (MIT) and can be run as a Docker container. You'll need to provide your own PostgreSQL database and LLM API key (OpenAI/Anthropic). Managed updates and support are reserved for our Cloud plans."
+  },
+  {
+    question: "How do extra Dibs work when I go over my limit?",
+    answer: "When you reach your plan's included limit, you'll be notified. You can then purchase extra Dib credits at your tier's discounted rate ($3, $2, or $1.50) as you need them, or upgrade to a higher tier for a larger monthly bucket."
+  },
+  {
+    question: "Do you offer a discount for open-source projects or students?",
+    answer: "Absolutely. We love the community. Please reach out to community@databreef.io with details about your project, and we'll get you set up with a Pro-level reef for free."
+  }
+];
+---
+
+<section class="faq-section" aria-labelledby="faq-heading">
+  <div class="faq-header">
+    <h2 class="faq-title" id="faq-heading">Frequently Asked Questions</h2>
+    <p class="faq-subtitle">Everything you need to know about diving into DataBreef.</p>
+  </div>
+
+  <div class="faq-grid">
+    {faqs.map((faq) => (
+      <div class="faq-item">
+        <h3 class="faq-question">
+          {faq.question.split(/(Dibs?)/g).map(part => {
+            if (part.match(/Dibs?/)) {
+              return <DibTooltip noUnderline>{part}</DibTooltip>
+            }
+            return part;
+          })}
+        </h3>
+        <p class="faq-answer">
+          {faq.answer.split(/(Dibs?)/g).map(part => {
+            if (part.match(/Dibs?/)) {
+              return <DibTooltip>{part}</DibTooltip>
+            }
+            return part;
+          })}
+        </p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq-section {
+    padding-top: var(--space-20);
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .faq-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .faq-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .faq-subtitle {
+    color: var(--text-muted);
+    font-size: var(--text-lg);
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8) var(--space-12);
+  }
+
+  .faq-question {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
+  }
+
+  .faq-answer {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  @media (max-width: 768px) {
+    .faq-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+</style>

@@ -1,0 +1,759 @@
+---
+/**
+ * ReefComparison — THE centerpiece of the marketing page.
+ *
+ * Two full-width panels share the same container:
+ *   LEFT  = Dark, murky, unknown reef (before DataBreef)
+ *   RIGHT = Vibrant, bioluminescent, surfaced reef (with DataBreef)
+ *
+ * A draggable handle clips the left panel over the right using
+ * CSS clip-path: inset(). ~40 lines of JS, keyboard accessible.
+ *
+ * Relationship lines in the right SVG use stroke-dasharray animation.
+ * Coral tips use SVG glow filters. No external images.
+ */
+---
+
+<section class="reef-section section" id="reef-comparison" aria-labelledby="reef-heading">
+  <div class="container">
+
+    <!-- Section header -->
+    <div class="section-header">
+      <p class="eyebrow">Know Your Reef</p>
+      <h2 class="section-title" id="reef-heading">Most teams are flying blind.</h2>
+      <p class="section-body">
+        Your database holds the story of your business. Without the right lens,
+        it's just dark water. DataBreef is that lens — surfacing the structure,
+        the patterns, and the signals hiding in your schema.
+      </p>
+    </div>
+
+    <!-- Panel labels (outside widget for accessibility) -->
+    <div class="panel-labels" aria-hidden="true">
+      <span class="panel-label label-left">
+        <span class="status-dot dot-muted"></span>
+        Unknown Reef
+      </span>
+      <span class="panel-label label-right">
+        <span class="status-dot dot-live"></span>
+        Surfaced with DataBreef
+      </span>
+    </div>
+
+    <!-- ─────────────────────── THE WIDGET ─────────────────────── -->
+    <div
+      class="reef-widget"
+      id="reef-widget"
+      role="img"
+      aria-label="Interactive comparison: drag the handle to reveal your schema with and without DataBreef"
+    >
+
+      <!-- ── RIGHT PANEL — Vibrant / Surfaced (base layer, full width) ── -->
+      <div class="reef-bg reef-bg--right" aria-hidden="true">
+
+        <svg class="reef-svg" viewBox="0 0 1000 562" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <!-- Backgrounds -->
+            <linearGradient id="bg-r" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="hsl(200,65%,7%)"/>
+              <stop offset="100%" stop-color="hsl(195,58%,12%)"/>
+            </linearGradient>
+
+            <!-- Volumetric light shafts from surface -->
+            <radialGradient id="light-r" cx="48%" cy="0%" r="70%">
+              <stop offset="0%" stop-color="hsl(172,65%,60%)" stop-opacity="0.07"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+            <radialGradient id="light-r2" cx="75%" cy="0%" r="50%">
+              <stop offset="0%" stop-color="hsl(200,60%,50%)" stop-opacity="0.05"/>
+              <stop offset="100%" stop-color="transparent"/>
+            </radialGradient>
+
+            <!-- Teal coral glow -->
+            <filter id="glow-teal" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="b"/>
+              <feFlood flood-color="hsl(172,65%,55%)" flood-opacity="0.55" result="c"/>
+              <feComposite in="c" in2="b" operator="in" result="g"/>
+              <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+
+            <!-- Aqua coral glow -->
+            <filter id="glow-aqua" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="b"/>
+              <feFlood flood-color="hsl(182,80%,58%)" flood-opacity="0.5" result="c"/>
+              <feComposite in="c" in2="b" operator="in" result="g"/>
+              <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+
+            <!-- Fan coral gradient -->
+            <linearGradient id="fan-r" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="hsl(168,75%,55%)"/>
+              <stop offset="100%" stop-color="hsl(188,60%,35%)"/>
+            </linearGradient>
+          </defs>
+
+          <!-- BG -->
+          <rect width="1000" height="562" fill="url(#bg-r)"/>
+          <rect width="1000" height="562" fill="url(#light-r)"/>
+          <rect width="1000" height="562" fill="url(#light-r2)"/>
+
+          <!-- Sea floor (teal-tinted) -->
+          <path d="M0,500 C250,476 500,514 750,492 C875,480 940,498 1000,484 L1000,562 L0,562 Z" fill="hsl(192,42%,14%)"/>
+
+          <!-- Seagrass accents -->
+          <g stroke="hsl(155,55%,30%)" stroke-linecap="round" fill="none" stroke-width="2.5">
+            <path d="M120,518 Q114,498 122,478 Q128,460 120,440"/>
+            <path d="M132,518 Q138,498 130,478 Q124,460 132,440"/>
+            <path d="M440,522 Q434,500 442,480 Q448,462 440,442"/>
+            <path d="M452,522 Q458,500 450,480 Q444,462 452,442"/>
+            <path d="M858,516 Q852,496 860,476 Q866,458 858,438"/>
+            <path d="M870,516 Q876,496 868,476 Q862,458 870,438"/>
+          </g>
+
+          <!-- Rocks (teal-tinted) -->
+          <ellipse cx="90" cy="518" rx="56" ry="24" fill="hsl(200,40%,14%)"/>
+          <ellipse cx="620" cy="522" rx="44" ry="18" fill="hsl(200,40%,15%)"/>
+          <ellipse cx="900" cy="516" rx="62" ry="20" fill="hsl(200,40%,13%)"/>
+
+          <!-- ── Left coral — teal glow ── -->
+          <g stroke="hsl(172,65%,42%)" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#glow-teal)" class="coral-sway">
+            <path d="M190,520 L190,420" stroke-width="6"/>
+            <path d="M190,505 C168,482 160,452 148,414" stroke-width="5"/>
+            <path d="M190,488 C210,466 217,436 220,398" stroke-width="5"/>
+            <path d="M190,450 C170,428 164,400 160,370" stroke-width="4"/>
+            <path d="M190,450 C209,426 215,398 218,366" stroke-width="4"/>
+            <path d="M190,420 L190,340" stroke-width="4"/>
+            <path d="M190,388 C175,362 173,335 171,306" stroke-width="3"/>
+            <path d="M190,388 C203,362 204,334 206,304" stroke-width="3"/>
+            <path d="M190,352 C179,328 178,304 177,278" stroke-width="2.5"/>
+            <path d="M190,352 C200,328 202,304 202,278" stroke-width="2.5"/>
+          </g>
+          <!-- Teal coral tip glows -->
+          <circle cx="147" cy="412" r="4" fill="hsl(168,85%,68%)" opacity="0.9"/>
+          <circle cx="220" cy="395" r="4" fill="hsl(168,85%,68%)" opacity="0.9"/>
+          <circle cx="170" cy="303" r="3" fill="hsl(182,90%,72%)" opacity="0.9"/>
+          <circle cx="206" cy="301" r="3" fill="hsl(182,90%,72%)" opacity="0.9"/>
+          <circle cx="176" cy="275" r="2.5" fill="hsl(172,85%,78%)" opacity="0.8"/>
+          <circle cx="202" cy="275" r="2.5" fill="hsl(172,85%,78%)" opacity="0.8"/>
+
+          <!-- ── Right coral — aqua glow ── -->
+          <g stroke="hsl(180,70%,48%)" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#glow-aqua)" class="coral-sway coral-sway--r">
+            <path d="M780,520 L780,420" stroke-width="6"/>
+            <path d="M780,504 C758,482 750,454 742,415" stroke-width="5"/>
+            <path d="M780,488 C800,466 808,436 810,400" stroke-width="5"/>
+            <path d="M780,450 C762,428 755,400 750,368" stroke-width="4"/>
+            <path d="M780,450 C798,426 804,398 806,366" stroke-width="4"/>
+            <path d="M780,420 L780,345" stroke-width="4"/>
+            <path d="M780,390 C766,364 764,337 762,308" stroke-width="3"/>
+            <path d="M780,390 C793,362 796,334 797,304" stroke-width="3"/>
+          </g>
+          <!-- Aqua coral tips -->
+          <circle cx="741" cy="413" r="4" fill="hsl(182,85%,70%)" opacity="0.9"/>
+          <circle cx="810" cy="397" r="4" fill="hsl(182,85%,70%)" opacity="0.9"/>
+          <circle cx="762" cy="306" r="3" fill="hsl(180,90%,72%)" opacity="0.8"/>
+          <circle cx="797" cy="302" r="3" fill="hsl(180,90%,72%)" opacity="0.8"/>
+
+          <!-- ── Center fan coral ── -->
+          <path d="M500,520 C462,490 456,452 468,412 C477,381 487,358 500,340 C513,358 523,381 532,412 C544,452 538,490 500,520" fill="url(#fan-r)" filter="url(#glow-teal)"/>
+          <path d="M500,508 C472,480 468,448 478,416 C485,394 491,376 500,362 C509,376 515,394 522,416 C532,448 528,480 500,508" fill="hsl(172,65%,50%)" opacity="0.2"/>
+
+          <!-- ── Small foreground corals (bright green) ── -->
+          <g stroke="hsl(152,60%,48%)" stroke-linecap="round" fill="none" filter="url(#glow-aqua)" class="coral-sway coral-sway--sm">
+            <path d="M340,520 L340,472" stroke-width="4"/>
+            <path d="M340,512 C326,496 322,475 318,452" stroke-width="3"/>
+            <path d="M340,500 C353,486 356,468 358,447" stroke-width="3"/>
+            <path d="M340,482 C328,468 326,450 325,432" stroke-width="2"/>
+            <path d="M340,482 C351,468 353,450 353,432" stroke-width="2"/>
+          </g>
+
+          <!-- ── Relationship lines between table nodes ── -->
+          <!-- users ↔ orders -->
+          <path d="M 245,275 Q 380,240 455,250" stroke="hsl(172,65%,50%)" stroke-width="1.5" fill="none" stroke-dasharray="6 4" opacity="0.55" class="rel-line"/>
+          <!-- orders ↔ products -->
+          <path d="M 595,250 Q 660,262 725,280" stroke="hsl(172,65%,50%)" stroke-width="1.5" fill="none" stroke-dasharray="6 4" opacity="0.55" class="rel-line rel-line--r"/>
+
+          <!-- ── Rising particle bubbles ── -->
+          <circle class="bubble" cx="88"  cy="480" r="3"   fill="hsl(172,65%,72%)" opacity="0.55" style="animation-delay:0s"/>
+          <circle class="bubble" cx="270" cy="458" r="2.5" fill="hsl(180,70%,74%)" opacity="0.5"  style="animation-delay:1.6s"/>
+          <circle class="bubble" cx="424" cy="468" r="2"   fill="hsl(172,65%,70%)" opacity="0.5"  style="animation-delay:3.1s"/>
+          <circle class="bubble" cx="568" cy="445" r="2.5" fill="hsl(182,80%,72%)" opacity="0.55" style="animation-delay:0.9s"/>
+          <circle class="bubble" cx="695" cy="462" r="2"   fill="hsl(172,65%,72%)" opacity="0.45" style="animation-delay:2.4s"/>
+          <circle class="bubble" cx="865" cy="472" r="3"   fill="hsl(180,70%,70%)" opacity="0.5"  style="animation-delay:4s"/>
+          <circle class="bubble" cx="155" cy="445" r="2"   fill="hsl(168,75%,68%)" opacity="0.4"  style="animation-delay:5.2s"/>
+          <circle class="bubble" cx="496" cy="430" r="2.5" fill="hsl(172,65%,70%)" opacity="0.55" style="animation-delay:2.8s"/>
+        </svg>
+
+        <!-- Table node cards (HTML for crisp typography) -->
+        <div class="table-nodes" aria-label="Surfaced schema intelligence">
+          <div class="tnode" data-variant="teal">
+            <span class="tnode-name">users</span>
+            <span class="tnode-count">2.1M rows</span>
+            <span class="tnode-trend trend-up">↑ +1.2% week</span>
+          </div>
+          <div class="tnode" data-variant="kelp">
+            <span class="tnode-name">orders</span>
+            <span class="tnode-count">284K records</span>
+            <span class="tnode-trend trend-up">↑ growing</span>
+          </div>
+          <div class="tnode" data-variant="biolum">
+            <span class="tnode-name">products</span>
+            <span class="tnode-count">847 items</span>
+            <span class="tnode-trend trend-neutral">12 categories</span>
+          </div>
+        </div>
+
+      </div><!-- /reef-bg--right -->
+
+      <!-- ── LEFT PANEL — Dark / Unknown (clips over right via clip-path) ── -->
+      <div class="reef-bg reef-bg--left" id="reef-left" aria-hidden="true">
+
+        <svg class="reef-svg" viewBox="0 0 1000 562" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="bg-l" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="hsl(215,42%,4%)"/>
+              <stop offset="100%" stop-color="hsl(215,35%,8%)"/>
+            </linearGradient>
+            <!-- Atmospheric fog -->
+            <radialGradient id="fog-l" cx="50%" cy="55%" r="80%">
+              <stop offset="0%" stop-color="hsl(215,40%,6%)" stop-opacity="0"/>
+              <stop offset="100%" stop-color="hsl(215,40%,4%)" stop-opacity="0.7"/>
+            </radialGradient>
+          </defs>
+
+          <!-- BG -->
+          <rect width="1000" height="562" fill="url(#bg-l)"/>
+
+          <!-- Sea floor -->
+          <path d="M0,500 C250,476 500,514 750,492 C875,480 940,498 1000,484 L1000,562 L0,562 Z" fill="hsl(215,22%,10%)"/>
+
+          <!-- Rocks (dark) -->
+          <ellipse cx="90"  cy="518" rx="56" ry="24" fill="hsl(215,18%,8%)"/>
+          <ellipse cx="620" cy="522" rx="44" ry="18" fill="hsl(215,18%,9%)"/>
+          <ellipse cx="900" cy="516" rx="62" ry="20" fill="hsl(215,18%,8%)"/>
+
+          <!-- ── Left coral silhouette ── -->
+          <g stroke="hsl(215,15%,20%)" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M190,520 L190,420" stroke-width="6"/>
+            <path d="M190,505 C168,482 160,452 148,414" stroke-width="5"/>
+            <path d="M190,488 C210,466 217,436 220,398" stroke-width="5"/>
+            <path d="M190,450 C170,428 164,400 160,370" stroke-width="4"/>
+            <path d="M190,450 C209,426 215,398 218,366" stroke-width="4"/>
+            <path d="M190,420 L190,340" stroke-width="4"/>
+            <path d="M190,388 C175,362 173,335 171,306" stroke-width="3"/>
+            <path d="M190,388 C203,362 204,334 206,304" stroke-width="3"/>
+            <path d="M190,352 C179,328 178,304 177,278" stroke-width="2.5"/>
+            <path d="M190,352 C200,328 202,304 202,278" stroke-width="2.5"/>
+          </g>
+
+          <!-- ── Right coral silhouette ── -->
+          <g stroke="hsl(215,12%,18%)" stroke-linecap="round" stroke-linejoin="round" fill="none">
+            <path d="M780,520 L780,420" stroke-width="6"/>
+            <path d="M780,504 C758,482 750,454 742,415" stroke-width="5"/>
+            <path d="M780,488 C800,466 808,436 810,400" stroke-width="5"/>
+            <path d="M780,450 C762,428 755,400 750,368" stroke-width="4"/>
+            <path d="M780,450 C798,426 804,398 806,366" stroke-width="4"/>
+            <path d="M780,420 L780,345" stroke-width="4"/>
+            <path d="M780,390 C766,364 764,337 762,308" stroke-width="3"/>
+            <path d="M780,390 C793,362 796,334 797,304" stroke-width="3"/>
+          </g>
+
+          <!-- ── Center fan coral silhouette ── -->
+          <path d="M500,520 C462,490 456,452 468,412 C477,381 487,358 500,340 C513,358 523,381 532,412 C544,452 538,490 500,520" fill="hsl(215,14%,12%)" stroke="hsl(215,15%,18%)" stroke-width="1.5"/>
+
+          <!-- ── Small foreground coral silhouette ── -->
+          <g stroke="hsl(215,12%,17%)" stroke-linecap="round" fill="none">
+            <path d="M340,520 L340,472" stroke-width="4"/>
+            <path d="M340,512 C326,496 322,475 318,452" stroke-width="3"/>
+            <path d="M340,500 C353,486 356,468 358,447" stroke-width="3"/>
+          </g>
+
+          <!-- Atmospheric fog overlay -->
+          <rect width="1000" height="562" fill="url(#fog-l)"/>
+        </svg>
+
+        <!-- Ghost / unknown table nodes -->
+        <div class="ghost-nodes">
+          <div class="ghost-node">
+            <span class="ghost-name">???</span>
+            <span class="ghost-meta">unknown · 42 tables</span>
+          </div>
+          <div class="ghost-node">
+            <span class="ghost-name">schema_?</span>
+            <span class="ghost-meta">????? rows</span>
+          </div>
+          <div class="ghost-node">
+            <span class="ghost-name">???</span>
+            <span class="ghost-meta">uncharted</span>
+          </div>
+        </div>
+
+        <!-- Floating question marks -->
+        <div class="qmarks" aria-hidden="true">
+          <span class="qmark" style="top:14%;left:22%;font-size:2.5rem;animation-delay:0s">?</span>
+          <span class="qmark" style="top:9%;left:56%;font-size:3rem;animation-delay:1.8s">?</span>
+          <span class="qmark" style="top:18%;left:78%;font-size:2rem;animation-delay:3.5s">?</span>
+          <span class="qmark" style="top:42%;left:40%;font-size:1.8rem;animation-delay:0.9s">?</span>
+        </div>
+
+      </div><!-- /reef-bg--left -->
+
+      <!-- ── SLIDER HANDLE ── -->
+      <div
+        class="reef-handle"
+        id="reef-handle"
+        role="slider"
+        aria-label="Drag to compare: unknown reef vs surfaced"
+        aria-valuenow="50"
+        aria-valuemin="5"
+        aria-valuemax="95"
+        tabindex="0"
+      >
+        <div class="handle-line"></div>
+        <div class="handle-knob" id="handle-knob" aria-hidden="true">
+          <!-- Left/Right arrows -->
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8,11 L4,7 M8,11 L4,15 M8,11 L2,11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14,11 L18,7 M14,11 L18,15 M14,11 L20,11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+    </div><!-- /reef-widget -->
+
+    <!-- CTA below the comparison -->
+    <div class="comparison-cta">
+      <p class="cta-headline">See what's living in <em>your</em> reef.</p>
+      <a href="https://app.databreef.io/sign-up" class="btn btn-primary btn-primary-lg" id="reef-cta">
+        Anchor your first source — it's free →
+      </a>
+      <p class="cta-sub">No credit card. No schema changes. Ever.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SLIDER SCRIPT ── -->
+<script is:inline>
+(function () {
+  var widget  = document.getElementById('reef-widget');
+  var left    = document.getElementById('reef-left');
+  var handle  = document.getElementById('reef-handle');
+  var knob    = document.getElementById('handle-knob');
+  if (!widget || !left || !handle) return;
+
+  var isDragging = false;
+  var hasInteracted = false;
+
+  function setPos(pct) {
+    var p = Math.max(5, Math.min(95, pct));
+    var rightClip = (100 - p).toFixed(2);
+    left.style.clipPath = 'inset(0 ' + rightClip + '% 0 0)';
+    handle.style.left = p + '%';
+    handle.setAttribute('aria-valuenow', Math.round(p));
+  }
+
+  // Initial position
+  setPos(50);
+
+  // Pulse-hint animation: remove once user has touched the handle
+  knob.classList.add('idle');
+
+  handle.addEventListener('pointerdown', function (e) {
+    isDragging = true;
+    hasInteracted = true;
+    knob.classList.remove('idle');
+    handle.setPointerCapture(e.pointerId);
+    widget.classList.add('is-dragging');
+    e.preventDefault();
+  });
+
+  document.addEventListener('pointermove', function (e) {
+    if (!isDragging) return;
+    var rect = widget.getBoundingClientRect();
+    var pct  = ((e.clientX - rect.left) / rect.width) * 100;
+    setPos(pct);
+  });
+
+  document.addEventListener('pointerup', function () {
+    if (!isDragging) return;
+    isDragging = false;
+    widget.classList.remove('is-dragging');
+  });
+
+  // Keyboard: arrow keys move handle 5% at a time
+  handle.addEventListener('keydown', function (e) {
+    var cur = parseFloat(getComputedStyle(handle).left) / widget.getBoundingClientRect().width * 100;
+    if (isNaN(cur)) cur = 50;
+    if (e.key === 'ArrowLeft')  { setPos(cur - 5); e.preventDefault(); }
+    if (e.key === 'ArrowRight') { setPos(cur + 5); e.preventDefault(); }
+  });
+
+  // Tap anywhere on the widget to jump handle there
+  widget.addEventListener('click', function (e) {
+    if (e.target === handle || handle.contains(e.target)) return;
+    var rect = widget.getBoundingClientRect();
+    setPos(((e.clientX - rect.left) / rect.width) * 100);
+  });
+
+  // Intro hint: gently animate handle left then right to signal interactivity
+  if (!hasInteracted) {
+    setTimeout(function () {
+      if (hasInteracted) return;
+      setPos(38);
+      setTimeout(function () {
+        if (hasInteracted) return;
+        setPos(62);
+        setTimeout(function () {
+          if (hasInteracted) return;
+          setPos(50);
+        }, 700);
+      }, 700);
+    }, 1800);
+  }
+})();
+</script>
+
+<style>
+  /* ── Section ── */
+  .reef-section {
+    background: var(--color-abyss);
+  }
+
+  /* ── Panel labels ── */
+  .panel-labels {
+    display: flex;
+    justify-content: space-between;
+    max-width: 100%;
+    margin-bottom: var(--space-4);
+    padding: 0 var(--space-2);
+  }
+
+  .panel-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-heading);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .label-left  { color: var(--text-muted); }
+  .label-right { color: var(--color-foam); }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-muted { background: var(--color-sand-dark); }
+  .dot-live  {
+    background: var(--color-foam);
+    box-shadow: 0 0 6px var(--color-foam);
+    animation: dotPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { box-shadow: 0 0 4px var(--color-foam); }
+    50%       { box-shadow: 0 0 12px var(--color-foam), 0 0 24px hsl(172 65% 50% / 0.3); }
+  }
+
+  /* ── Widget ── */
+  .reef-widget {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px var(--border-subtle),
+      var(--shadow-xl),
+      0 0 80px hsl(172 65% 25% / 0.15);
+    user-select: none;
+    cursor: ew-resize;
+    touch-action: pan-y;
+  }
+
+  .reef-widget.is-dragging { cursor: grabbing; }
+
+  /* ── Shared panel base ── */
+  .reef-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .reef-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* ── LEFT panel (dark) — clipped by JS ── */
+  .reef-bg--left {
+    clip-path: inset(0 50% 0 0); /* JS overrides this */
+    z-index: 2;
+  }
+
+  /* ── Animations in the RIGHT panel ── */
+  @keyframes bubbleRise {
+    0%   { transform: translateY(0); opacity: 0.55; }
+    50%  { opacity: 0.7; }
+    100% { transform: translateY(-280px) scale(0.25); opacity: 0; }
+  }
+
+  .bubble {
+    animation: bubbleRise 7s ease-in-out infinite;
+  }
+
+  @keyframes marchAnts {
+    to { stroke-dashoffset: -20; }
+  }
+
+  .rel-line   { animation: marchAnts 2.4s linear infinite; }
+  .rel-line--r { animation: marchAnts 2.4s linear infinite reverse; }
+
+  @keyframes coralSway {
+    0%, 100% { transform: rotate(0deg); }
+    50%       { transform: rotate(1.2deg); }
+  }
+
+  .coral-sway {
+    transform-origin: 190px 520px;
+    animation: coralSway 8s var(--ease-wave) infinite;
+  }
+  .coral-sway--r {
+    transform-origin: 780px 520px;
+    animation: coralSway 10s var(--ease-wave) infinite reverse;
+  }
+  .coral-sway--sm {
+    transform-origin: 340px 520px;
+    animation: coralSway 6s var(--ease-wave) infinite;
+  }
+
+  /* ── Table node cards (right panel) ── */
+  .table-nodes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .tnode {
+    position: absolute;
+    background: hsl(200 60% 10% / 0.85);
+    border-radius: var(--radius-lg);
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    min-width: 110px;
+    animation: nodeFloat 5s ease-in-out infinite;
+  }
+
+  .tnode:nth-child(1) { top: 44%; left:  5%; border: 1px solid hsl(172 65% 40% / 0.5); box-shadow: 0 0 20px hsl(172 65% 40% / 0.2); animation-delay: 0s; }
+  .tnode:nth-child(2) { top: 28%; left: 38%; border: 1px solid hsl(152 55% 38% / 0.5); box-shadow: 0 0 20px hsl(152 55% 38% / 0.2); animation-delay: 1.5s; }
+  .tnode:nth-child(3) { top: 36%; left: 68%; border: 1px solid hsl(182 90% 58% / 0.4); box-shadow: 0 0 20px hsl(182 90% 58% / 0.15); animation-delay: 0.8s; }
+
+  @keyframes nodeFloat {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-5px); }
+  }
+
+  .tnode-name {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .tnode-count {
+    font-family: var(--font-heading);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+  .tnode-trend {
+    font-family: var(--font-heading);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-wide);
+  }
+  .trend-up      { color: var(--color-seagrass); }
+  .trend-neutral { color: var(--color-biolum); }
+
+  /* ── Ghost nodes (left panel) ── */
+  .ghost-nodes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .ghost-node {
+    position: absolute;
+    background: hsl(215 30% 10% / 0.7);
+    border-radius: var(--radius-lg);
+    padding: var(--space-3) var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border: 1px dashed hsl(215 20% 22% / 0.7);
+    min-width: 110px;
+    filter: blur(0.4px);
+  }
+
+  .ghost-node:nth-child(1) { top: 44%; left:  5%; }
+  .ghost-node:nth-child(2) { top: 28%; left: 38%; }
+  .ghost-node:nth-child(3) { top: 36%; left: 68%; }
+
+  .ghost-name {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: hsl(215 15% 35%);
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+  .ghost-meta {
+    font-family: var(--font-heading);
+    font-size: var(--text-xs);
+    color: hsl(215 10% 28%);
+  }
+
+  /* ── Question marks ── */
+  .qmarks {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .qmark {
+    position: absolute;
+    font-family: var(--font-display);
+    font-style: italic;
+    color: hsl(215 12% 28%);
+    opacity: 0.6;
+    animation: qDrift 6s ease-in-out infinite;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  @keyframes qDrift {
+    0%, 100% { transform: translateY(0) rotate(-5deg); opacity: 0.55; }
+    50%       { transform: translateY(-8px) rotate(3deg); opacity: 0.75; }
+  }
+
+  /* ── Slider handle ── */
+  .reef-handle {
+    position: absolute;
+    top: 0;
+    left: 50%; /* JS updates */
+    height: 100%;
+    width: 56px;
+    transform: translateX(-50%);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: ew-resize;
+  }
+
+  .reef-handle:focus-visible {
+    outline: 2px solid var(--color-foam);
+    outline-offset: -2px;
+  }
+
+  .handle-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    transform: translateX(-50%);
+    background: var(--color-foam);
+    box-shadow:
+      0 0 8px  var(--color-foam),
+      0 0 32px hsl(172 65% 50% / 0.4);
+  }
+
+  .handle-knob {
+    position: relative;
+    z-index: 21;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--color-foam);
+    color: var(--color-abyss);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 0 0 3px hsl(172 65% 50% / 0.25),
+      var(--shadow-lg);
+    transition: transform var(--duration-fast) var(--ease-spring);
+  }
+
+  .reef-handle:hover .handle-knob,
+  .reef-handle:focus .handle-knob {
+    transform: scale(1.1);
+    box-shadow:
+      0 0 0 5px hsl(172 65% 50% / 0.3),
+      var(--glow-foam),
+      var(--shadow-lg);
+  }
+
+  @keyframes knobPulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.14); }
+  }
+
+  .handle-knob.idle {
+    animation: knobPulse 2s var(--ease-wave) infinite;
+  }
+
+  /* ── CTA below ── */
+  .comparison-cta {
+    text-align: center;
+    margin-top: var(--space-12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .cta-headline {
+    font-family: var(--font-display);
+    font-size: clamp(var(--text-2xl), 3.5vw, var(--text-4xl));
+    font-weight: 400;
+    color: var(--text-primary);
+    letter-spacing: var(--tracking-tight);
+    line-height: var(--leading-tight);
+  }
+
+  .cta-headline em {
+    font-style: italic;
+    color: var(--color-foam);
+  }
+
+  .cta-sub {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bubble, .coral-sway, .rel-line, .tnode, .qmark, .dot-live { animation: none; }
+    .tnode { animation: none; }
+    .handle-knob.idle { animation: none; }
+  }
+
+  @media (max-width: 768px) {
+    .reef-widget { aspect-ratio: 4/3; }
+    .tnode, .ghost-node { padding: var(--space-2); min-width: 80px; }
+    .tnode-name, .ghost-name { font-size: var(--text-xs); }
+    .qmark { font-size: 1.5rem !important; }
+  }
+</style>

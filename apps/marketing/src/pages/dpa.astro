@@ -1,0 +1,110 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+---
+
+<LegalLayout
+  title="Data Processing Agreement"
+  description="DataBreef's Data Processing Agreement (DPA) for GDPR compliance — covering roles, obligations, and sub-processors."
+  lastUpdated="April 2026"
+>
+  <p>
+    This Data Processing Agreement ("<strong>DPA</strong>") forms part of the agreement between
+    DataBreef ("<strong>Processor</strong>") and the customer entity that has agreed to our
+    <a href="/terms">Terms of Service</a> ("<strong>Controller</strong>"). It governs the processing
+    of personal data in the context of the DataBreef service in accordance with the GDPR and other
+    applicable data protection laws.
+  </p>
+
+  <h2>1. Definitions</h2>
+  <p>
+    Terms used in this DPA have the meanings set out in the GDPR (Regulation (EU) 2016/679).
+    "<strong>Personal Data</strong>" means any information relating to an identified or identifiable
+    natural person that the Controller submits to the Service. "<strong>Processing</strong>" has
+    the meaning given in Article 4(2) GDPR.
+  </p>
+
+  <h2>2. Roles of the Parties</h2>
+  <p>
+    The Controller determines the purposes and means of processing personal data in relation to
+    its use of DataBreef. DataBreef acts as a Processor, processing personal data only on the
+    Controller's documented instructions and only to the extent necessary to provide the Service.
+  </p>
+  <p>
+    <strong>Important:</strong> DataBreef operates in strictly read-only mode. DataBreef introspects
+    database <em>schema</em> (structure, relationships, column names) — not row-level personal data
+    contained within your tables. Connection strings are the primary personal data DataBreef processes.
+  </p>
+
+  <h2>3. Processor Obligations</h2>
+  <p>DataBreef agrees to:</p>
+  <ul>
+    <li>Process personal data only on documented instructions from the Controller</li>
+    <li>Ensure persons authorized to process personal data are bound by confidentiality</li>
+    <li>Implement appropriate technical and organizational security measures (Article 32 GDPR)</li>
+    <li>Assist the Controller in responding to data subject rights requests</li>
+    <li>Delete or return all personal data upon termination of the Service</li>
+    <li>Provide all information necessary to demonstrate compliance with this DPA</li>
+  </ul>
+
+  <h2>4. Sub-Processors</h2>
+  <p>
+    DataBreef uses the following sub-processors to provide the Service. The Controller grants
+    general authorization for DataBreef to engage sub-processors, subject to the conditions below.
+  </p>
+  <ul>
+    <li><strong>Vercel</strong> (hosting, US/EU) — application and API infrastructure</li>
+    <li><strong>Neon</strong> (database, US) — application database for account and session data</li>
+    <li><strong>Stripe</strong> (payments, US) — billing and subscription management</li>
+    <li><strong>Sentry</strong> (monitoring, US) — error tracking (PII scrubbing enabled)</li>
+  </ul>
+  <p>
+    DataBreef will notify the Controller at least 14 days before adding new sub-processors.
+    The Controller may object to a new sub-processor within that period.
+  </p>
+
+  <h2>5. Security Measures</h2>
+  <p>DataBreef implements the following measures as required by Article 32 GDPR:</p>
+  <ul>
+    <li>AES-256-GCM encryption for connection strings at rest</li>
+    <li>TLS 1.2+ for all data in transit</li>
+    <li>Role-based access controls and least-privilege principles</li>
+    <li>Regular security assessments and dependency auditing</li>
+    <li>Incident response procedures with 72-hour breach notification</li>
+  </ul>
+
+  <h2>6. International Data Transfers</h2>
+  <p>
+    Where DataBreef transfers personal data outside the European Economic Area, it does so on the
+    basis of Standard Contractual Clauses (SCCs) as approved by the European Commission, or
+    another adequacy mechanism recognized under applicable data protection law.
+  </p>
+
+  <h2>7. Data Retention & Deletion</h2>
+  <p>
+    Upon termination of the Service or upon written request, DataBreef will delete or return all
+    personal data within 30 days, unless retention is required by applicable law. A deletion
+    certificate is available upon request.
+  </p>
+
+  <h2>8. Audit Rights</h2>
+  <p>
+    DataBreef will provide the Controller with all information necessary to demonstrate compliance
+    with this DPA. The Controller may conduct audits or inspections with reasonable notice
+    (30 days minimum) and at the Controller's expense.
+  </p>
+
+  <h2>9. Governing Law</h2>
+  <p>
+    This DPA is governed by the laws of [Jurisdiction — TBD], consistent with the governing law
+    in the main Terms of Service.
+  </p>
+
+  <div class="legal-contact">
+    <h2>Executing a Signed DPA</h2>
+    <p>
+      Enterprise customers requiring a countersigned DPA should contact us. We will provide a
+      signed copy within 5 business days.
+    </p>
+    <p><strong>DataBreef Legal</strong> — <a href="mailto:legal@databreef.io">legal@databreef.io</a></p>
+  </div>
+</LegalLayout>

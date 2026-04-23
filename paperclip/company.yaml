@@ -1,0 +1,13 @@
+name: DataBreef.io
+mission: >
+  Build a robust database introspection tool that surfaces business-relevant
+  insights (Data Intelligence Briefs / "Dibs") from read-only connections
+  to user databases. Ship MVP by 2026-05-18.
+budget:
+  monthly_total_usd: 150
+  company_wide_pause_at_percent: 90   # 2nd line of defense beyond per-agent caps
+projects:
+  - id: mvp-launch
+    goal_ref: 01-mvp-launch
+  - id: quality
+    goal_refs: [02-test-coverage, 03-docs-sync]

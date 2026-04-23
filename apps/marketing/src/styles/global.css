@@ -1,0 +1,163 @@
+/**
+ * DataBreef Marketing Site — Global Styles
+ * Imports shared ocean design tokens from @databreef/tokens.
+ * All CSS custom properties (--color-foam, --font-heading, etc.)
+ * are available globally after this import.
+ */
+
+/* ── Shared design system tokens (relative path for Vite postcss-import compatibility) ── */
+@import "../../../../packages/tokens/index.css";
+
+/* ── Marketing-specific base overrides ── */
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+/* ── Container utility ── */
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  width: 100%;
+}
+
+/* ── Section padding ── */
+.section {
+  padding: var(--space-24) 0;
+}
+
+/* ── Eyebrow utility (mirrors design-system.md) ── */
+.eyebrow {
+  font-family: var(--font-heading);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-foam);
+  margin-bottom: var(--space-3);
+}
+
+/* ── Section header pattern ── */
+.section-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto var(--space-16);
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  margin-bottom: var(--space-4);
+}
+
+.section-body {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  line-height: var(--leading-relaxed);
+}
+
+/* ── Button utility classes ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background var(--duration-fast) var(--ease-out-expo),
+    border-color var(--duration-fast) var(--ease-out-expo),
+    box-shadow var(--duration-fast) var(--ease-out-expo),
+    transform var(--duration-fast) var(--ease-out-expo);
+  letter-spacing: var(--tracking-wide);
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--color-foam);
+  color: var(--color-abyss);
+  border-color: var(--color-foam);
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-6);
+}
+.btn-primary:hover {
+  background: var(--color-brine);
+  border-color: var(--color-brine);
+  box-shadow: var(--glow-foam);
+}
+
+.btn-primary-lg {
+  font-size: var(--text-base);
+  padding: var(--space-4) var(--space-8);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-foam);
+  border-color: var(--border-accent);
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-6);
+}
+.btn-secondary:hover {
+  border-color: var(--color-foam);
+  background: hsl(172 65% 50% / 0.08);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: transparent;
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-5);
+}
+.btn-ghost:hover {
+  color: var(--text-primary);
+  background: var(--color-current);
+}
+
+/* ── Fade-up entrance animation ── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: fade-up var(--duration-slow) var(--ease-out-expo) both;
+}
+.fade-up-1 { animation-delay: 0.1s; }
+.fade-up-2 { animation-delay: 0.2s; }
+.fade-up-3 { animation-delay: 0.35s; }
+.fade-up-4 { animation-delay: 0.5s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up { animation: none; opacity: 1; transform: none; }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-deep); }
+::-webkit-scrollbar-thumb { background: var(--color-current); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-surface); }
+
+/* ── Selection ── */
+::selection {
+  background: hsl(172 65% 50% / 0.25);
+  color: var(--color-seafoam);
+}

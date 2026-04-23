@@ -1,0 +1,19 @@
+{
+  "name": "@databreef/marketing",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev --port 4321",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@databreef/tokens": "workspace:*",
+    "astro": "^6.1.5"
+  }
+}

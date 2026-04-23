@@ -1,0 +1,240 @@
+---
+/**
+ * PricingCards — The 4 main pricing cards.
+ * Reacts to billing cycle changes via JS.
+ */
+import DibTooltip from './DibTooltip.astro';
+
+const tiers = [
+  {
+    name: "Still Waters",
+    id: "free",
+    priceMonthly: "0",
+    priceAnnual: "0",
+    description: "For individuals who want to explore one reef.",
+    features: ["1 connected source", "5 Dibs / month", "Full explorer access", "Community support"],
+    cta: "Start free",
+    highlight: false,
+  },
+  {
+    name: "Diver",
+    id: "diver",
+    priceMonthly: "19",
+    priceAnnual: "15",
+    description: "For indie devs and small startups with real production needs.",
+    features: ["3 connected sources", "20 Dibs / month", "Export as PDF/MD", "Email support", "$3 per extra Dib"],
+    cta: "Select Diver",
+    highlight: false,
+  },
+  {
+    name: "Pro",
+    id: "pro",
+    priceMonthly: "69",
+    priceAnnual: "55",
+    description: "For growing teams with multiple reefs and reporting cadence.",
+    features: ["10 connected sources", "50 Dibs / month", "Dib scheduling", "Up to 5 seats", "$2 per extra Dib"],
+    cta: "Go Pro",
+    highlight: true,
+  },
+  {
+    name: "Fleet",
+    id: "fleet",
+    priceMonthly: "199",
+    priceAnnual: "159",
+    description: "For agencies and platform teams managing multiple client fleets.",
+    features: ["Unlimited sources", "150 Dibs / month", "Custom Dib templates", "Up to 20 seats", "$1.50 per extra Dib"],
+    cta: "Scale Fleet",
+    highlight: false,
+  }
+];
+---
+
+<div class="pricing-grid">
+  {tiers.map((tier) => (
+    <div class={`pricing-card ${tier.highlight ? 'highlight' : ''}`} data-id={tier.id}>
+      {tier.highlight && <div class="card-badge">Most Popular</div>}
+      
+      <div class="card-header">
+        <h3 class="tier-name">{tier.name}</h3>
+        <p class="tier-desc">{tier.description}</p>
+      </div>
+
+      <div class="card-price">
+        <span class="currency">$</span>
+        <span class="amount" data-monthly={tier.priceMonthly} data-annual={tier.priceAnnual}>{tier.priceMonthly}</span>
+        <span class="slash">/</span>
+        <span class="period">mo</span>
+      </div>
+
+      <ul class="feature-list">
+        {tier.features.map((feature) => (
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            {feature.split(/(Dibs?)/g).map(part => {
+              if (part.match(/Dibs?/)) {
+                return <DibTooltip>{part}</DibTooltip>
+              }
+              return part;
+            })}
+          </li>
+        ))}
+      </ul>
+
+      <a href={tier.id === 'free' ? 'https://app.databreef.io/sign-up' : `/checkout?plan=${tier.id}`} class={`btn ${tier.highlight ? 'btn-primary' : 'btn-secondary'} full-width`}>
+        {tier.cta}
+      </a>
+    </div>
+  ))}
+</div>
+
+<style>
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: var(--space-4);
+    align-items: stretch;
+    margin-bottom: var(--space-16);
+  }
+
+  .pricing-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--duration-normal) var(--ease-out-expo), border-color var(--duration-normal) var(--ease-out-expo), box-shadow var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .pricing-card:hover {
+    border-color: var(--color-foam);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .pricing-card.highlight {
+    border-color: var(--color-foam);
+    background: linear-gradient(180deg, var(--color-deep) 0%, hsl(200 50% 13%) 100%);
+    box-shadow: 0 0 40px hsl(172 65% 50% / 0.1);
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-foam);
+    color: var(--color-abyss);
+    font-family: var(--font-heading);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .card-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .tier-name {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+  }
+
+  .tier-desc {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  .card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    margin-bottom: var(--space-8);
+  }
+
+  .currency {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .amount {
+    font-family: var(--font-heading);
+    font-size: var(--text-5xl);
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .slash, .period {
+    color: var(--text-muted);
+  }
+
+  .feature-list {
+    list-style: none;
+    margin-bottom: var(--space-10);
+    flex: 1;
+  }
+
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-3);
+  }
+
+  .feature-list svg {
+    margin-top: 2px;
+    color: var(--color-foam);
+    flex-shrink: 0;
+  }
+
+  .full-width {
+    width: 100%;
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .pricing-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function() {
+    window.addEventListener('pricing-cycle-change', (e) => {
+      const isAnnual = e.detail.isAnnual;
+      const amounts = document.querySelectorAll('.amount');
+      
+      amounts.forEach(el => {
+        const monthly = el.getAttribute('data-monthly');
+        const annual = el.getAttribute('data-annual');
+        
+        // Short animation for price switch
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(4px)';
+        
+        setTimeout(() => {
+          el.textContent = isAnnual ? annual : monthly;
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, 150);
+      });
+    });
+  })();
+</script>

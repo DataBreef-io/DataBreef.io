@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="hsl(172,65%,50%)" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="hsl(172,65%,50%)" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="20%" cy="80%" r="40%">
+      <stop offset="0%" stop-color="hsl(210,80%,55%)" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="hsl(210,80%,55%)" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="hsl(215,45%,7%)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <!-- Subtle grid lines -->
+  <g opacity="0.04" stroke="hsl(172,65%,50%)" stroke-width="1">
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+  </g>
+
+  <!-- Logo wordmark -->
+  <text
+    x="600" y="268"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="88"
+    font-weight="700"
+    text-anchor="middle"
+    letter-spacing="-2"
+  >
+    <tspan fill="hsl(210,20%,92%)">Data</tspan><tspan fill="hsl(172,65%,50%)">Breef</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text
+    x="600" y="338"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="26"
+    font-weight="400"
+    text-anchor="middle"
+    fill="hsl(210,20%,58%)"
+    letter-spacing="1"
+  >Your schema, surfaced.</text>
+
+  <!-- Accent rule -->
+  <rect x="540" y="370" width="120" height="2" fill="hsl(172,65%,50%)" opacity="0.5" rx="1"/>
+
+  <!-- Bottom badge -->
+  <text
+    x="600" y="430"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="16"
+    font-weight="400"
+    text-anchor="middle"
+    fill="hsl(210,20%,40%)"
+    letter-spacing="3"
+  >READ-ONLY · SECURE · OPEN SOURCE</text>
+</svg>

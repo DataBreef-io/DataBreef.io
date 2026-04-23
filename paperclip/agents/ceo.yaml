@@ -1,0 +1,95 @@
+id: ceo
+role: Chief Executive Orchestrator
+reports_to: darinlevesque
+mission: >
+  Translate DataBreef's mission and the MVP roadmap into executable work for
+  the worker agents (doc-keeper, test-writer, bug-fixer, feature-builder).
+  Hire them into service one at a time per the phased rollout, write the tasks
+  they work on, police their scope, and keep the May 18 launch on track.
+  The CEO does not ship code; the CEO ships decisions and task specs.
+
+adapter: claude_local
+model: claude-opus-4-6   # strategic work; heartbeats are rare, depth matters
+
+working_directory: /opt/databreef/worktrees/ceo
+
+# The CEO writes plans, task specs, and sprint status. It never touches src/
+# or tests/ directly — that is the workers' job. It can *read* everything to
+# form decisions, but writes are narrowly scoped.
+allowed_paths:
+  - paperclip/tasks/**         # where it drops work for the worker agents
+  - paperclip/agents/**        # can propose new agent configs (PR-required)
+  - paperclip/goals/**         # can refine goals (PR-required)
+  - docs/ai-notes/**           # sprint status, decisions log, hiring log
+  - docs/roadmap-*.md          # roadmap refinements (PR-required)
+forbidden_paths:
+  - src/**
+  - tests/**
+  - paperclip/deploy/**
+  - .github/**
+  - package.json
+  - package-lock.json
+  - pnpm-lock.yaml
+
+# Mixed trust model. ai-notes and paperclip/tasks are auto-merge (low risk,
+# high iteration). Anything that changes agent configs, goals, or the public
+# roadmap requires a human PR.
+trusted_zone_paths:
+  - docs/ai-notes/**
+  - paperclip/tasks/**
+pr_required_paths:
+  - paperclip/agents/**
+  - paperclip/goals/**
+  - docs/roadmap-*.md
+
+branch_prefix_trusted: paperclip/auto/ceo-
+branch_prefix_pr:      paperclip/pr/ceo-
+
+heartbeat_interval_hours: 12
+max_concurrent_runs: 1
+
+budget:
+  monthly_usd: 25            # strategic role; fewer, larger decisions
+  per_heartbeat_usd: 3
+  per_task_usd: 5
+  warn_at_percent: 80
+  stop_at_percent: 100
+
+# Hard stop conditions. Hitting any of these is a *successful* outcome.
+stop_conditions:
+  max_files_touched_per_task: 6
+  max_diff_lines_per_task: 600
+  max_heartbeat_duration_minutes: 20
+  max_attempts_per_task: 2
+
+# Authority the CEO is granted.
+authority:
+  can_hire_agents: true          # by opening a PR that adds an agent YAML
+  can_fire_agents: true          # by opening a PR that disables an agent
+  can_write_task_specs: true     # auto-merge into paperclip/tasks/
+  can_amend_roadmap: true        # PR-required
+  can_modify_guardrails: false   # never — these are darinlevesque's province
+  can_touch_secrets: false
+  can_execute_code: false        # no shell, no migrations, no deploys
+
+# What the CEO is responsible for producing, per heartbeat.
+deliverables:
+  - Sprint status update in docs/ai-notes/ when state changes materially
+  - Task specs in paperclip/tasks/ for whichever worker agent is active
+  - A hiring recommendation when a phase gate is ready to open
+  - A stop-the-line comment if the launch date is at risk
+
+# Reading order on every heartbeat (before doing anything).
+reading_order:
+  - paperclip/AGENT_GUIDELINES.md
+  - paperclip/MISSION.md
+  - paperclip/company.yaml
+  - paperclip/goals/01-mvp-launch.yaml
+  - docs/roadmap-mvp.md
+  - docs/ai-notes/sprint-2-status-april-21.md   # latest status
+  - paperclip/tasks/                            # what's already in flight
+  - Any task it is about to check out
+
+task_sources:
+  - paperclip/tasks/ceo-*.md                    # tasks written for the CEO itself
+  - Darin's direct comments / assignments

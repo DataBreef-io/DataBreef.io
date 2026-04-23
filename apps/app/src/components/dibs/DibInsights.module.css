@@ -1,0 +1,148 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  color: var(--color-foam);
+  font-weight: 600;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-4);
+}
+
+.card {
+  padding: var(--space-4);
+  background: var(--color-deep);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: all 0.3s ease;
+}
+
+.interactive {
+  cursor: pointer;
+}
+
+.interactive:hover {
+  border-color: var(--color-foam);
+  background: hsl(200 65% 15% / 0.5);
+  transform: translateY(-2px);
+}
+
+.expanded {
+  grid-column: span 2;
+}
+
+@media (max-width: 1024px) {
+  .expanded {
+    grid-column: span 1;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.chevron {
+  color: var(--text-muted);
+}
+
+.titleWrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-heading);
+}
+
+.icon {
+  color: var(--color-foam);
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  color: var(--text-body);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.entitiesList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-2) 0;
+  overflow: hidden;
+}
+
+.entitiesLabel {
+  font-size: var(--font-size-xs);
+  color: var(--color-foam);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tagCloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.entityTag {
+  background: hsl(200 65% 20% / 0.6);
+  color: var(--text-heading);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-ghost);
+}
+
+.recommendation {
+  margin-top: auto;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-ghost);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.recLabel {
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-foam);
+  font-weight: 600;
+}
+
+.recText {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0;
+}

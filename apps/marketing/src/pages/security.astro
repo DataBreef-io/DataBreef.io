@@ -1,0 +1,104 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+---
+
+<LegalLayout
+  title="Security & Compliance"
+  description="DataBreef's security architecture: AES-256 encryption, read-only enforcement, live audit logs, and SOC 2-aligned practices."
+  lastUpdated="April 2026"
+>
+  <p>
+    Security is foundational to DataBreef — not an afterthought. Every architectural decision starts
+    from the principle that your database is your most valuable asset, and we are only ever guests.
+    This page documents how we protect that trust.
+  </p>
+
+  <h2>Read-Only by Design</h2>
+  <p>
+    DataBreef enforces read-only access at the database adapter layer, not just at the application level.
+    Every connection opens a transaction with <code>SET TRANSACTION READ ONLY</code> before any query
+    executes. This is displayed live in the audit log so you can verify it yourself.
+  </p>
+  <ul>
+    <li>No <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, or <code>DDL</code> is ever issued</li>
+    <li>Read-only enforcement is open source and auditable on GitHub</li>
+    <li>Transactions are rolled back after introspection completes</li>
+  </ul>
+
+  <h2>Encryption</h2>
+  <h3>Connection Strings at Rest</h3>
+  <p>
+    Database connection strings are encrypted with AES-256-GCM before being written to our database.
+    The encryption key is never stored alongside the ciphertext. Decryption occurs in-memory, only
+    during the introspection window, and the plaintext is never logged or persisted.
+  </p>
+  <h3>Data in Transit</h3>
+  <p>
+    All communication between your browser, our API, and your database is encrypted via TLS 1.2+.
+    We enforce HSTS and reject connections from clients that do not support modern cipher suites.
+  </p>
+
+  <h2>Authentication & Access Control</h2>
+  <p>
+    DataBreef uses Auth.js v5 for authentication, supporting OAuth 2.0 (GitHub, Google) and
+    email/password with secure session management. Sessions are short-lived, signed with rotating
+    secrets, and invalidated on logout.
+  </p>
+  <ul>
+    <li>Role-based access control (RBAC) per workspace</li>
+    <li>Reef (connection) access scoped to the creating user or shared team</li>
+    <li>Admin actions require re-authentication</li>
+  </ul>
+
+  <h2>Audit Logging</h2>
+  <p>
+    Every database introspection session generates a live audit log visible to the user. The log
+    includes the exact SQL statements executed, timestamps, the read-only enforcement commands,
+    and the result counts — so you always know exactly what DataBreef did in your database.
+  </p>
+
+  <h2>Infrastructure Security</h2>
+  <p>
+    DataBreef's cloud platform is deployed on Vercel and Neon, both of which maintain SOC 2 Type II
+    certification. Our infrastructure follows a least-privilege model: no service has more access
+    than required for its function.
+  </p>
+  <ul>
+    <li>Automated dependency scanning via Dependabot</li>
+    <li>Secrets managed via environment variable isolation (never in source)</li>
+    <li>Zero-downtime deployments with automatic rollback on failure</li>
+  </ul>
+
+  <h2>Self-Hosting</h2>
+  <p>
+    DataBreef is open source and fully self-hostable via Docker. Self-hosted deployments keep all
+    data — including connection strings and Dib outputs — entirely within your own infrastructure.
+    We publish signed container images and a hardening guide in our documentation.
+  </p>
+
+  <h2>Vulnerability Disclosure</h2>
+  <p>
+    We operate a responsible disclosure program. If you discover a security vulnerability in
+    DataBreef, please report it privately before public disclosure. We commit to acknowledging
+    reports within 48 hours and providing a resolution timeline within 7 days.
+  </p>
+
+  <h2>Compliance</h2>
+  <p>
+    DataBreef is designed with GDPR, CCPA, and SOC 2 alignment in mind. We maintain a Data
+    Processing Agreement (DPA) for enterprise customers and can provide security questionnaire
+    responses upon request.
+  </p>
+  <ul>
+    <li><a href="/dpa">Data Processing Agreement (DPA)</a></li>
+    <li><a href="/privacy">Privacy Policy</a></li>
+    <li><a href="/cookies">Cookie Policy</a></li>
+  </ul>
+
+  <div class="legal-contact">
+    <h2>Report a Security Issue</h2>
+    <p>Security reports and questions:</p>
+    <p><strong>DataBreef Security</strong> — <a href="mailto:security@databreef.io">security@databreef.io</a></p>
+    <p>For general compliance inquiries: <a href="mailto:legal@databreef.io">legal@databreef.io</a></p>
+  </div>
+</LegalLayout>
